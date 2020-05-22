@@ -62,9 +62,10 @@ export default {
     showMap() {
       // window.open('../map.html')
       console.log('here come into showMap')
+      //初始化一个地图对象
       var map = new BMap.Map('allmap')
       console.log('finish allmap');
-      // map.addControl(new BMap.ScaleControl())
+      // 增加地图类型，包含两种地图，可切换
       map.addControl(new BMap.MapTypeControl({
 		mapTypes:[
             BMAP_NORMAL_MAP,
@@ -72,6 +73,7 @@ export default {
         ]}));
         // map.addControl(new BMap.ScaleControl());
       console.log('finish add Control');
+      //地图增加滚动轮控件
       map.enableScrollWheelZoom(true)
       console.log('finish enable wheel zoom');
 
@@ -82,6 +84,7 @@ export default {
       // this.addMarker(map, pointArray[(locArray.length)-1],'end')
       var longSum = 0.0000
       var latSum = 0.0000
+      //用循环将坐标点读出来，然后创建多个Point对象
       for (var i = 0; i < locArray.length; i++) {
         console.log(i);
         console.log(locArray[i].longitude + '==' + locArray[i].latitude);
@@ -95,24 +98,28 @@ export default {
       test module
       */
       var initPoint = new BMap.Point(longSum/locArray.length, latSum/locArray.length)
+      //设置地图中心点和地图范围
       map.centerAndZoom(initPoint, 14.5)
       console.log('finish centerAndZoom');
+      //清除地图之前的所有标示
       map.clearOverlays()
       var startPoint = new BMap.Point(this.locationArray[0].longitude, this.locationArray[0].latitude)
+      //添加起点和终点标记
       this.addMarker(map, startPoint, new BMap.Point(this.locationArray[this.locationArray.length-1].longitude, this.locationArray[this.locationArray.length-1].latitude))
       var testPoint1 = new BMap.Point(113.3444, 27.0332)
       var testPoint2 = new BMap.Point(113.3500, 27.0332)
       var deleteFirstArray = pointArray.slice(1, pointArray.length)
+      //根据Point对象数组创建虚线对象
       var polyline = new BMap.Polyline(deleteFirstArray,
         {
-          strokeColor: 'green',
-          strokeWeight: 4,
-          strokeOpacity:0.5,
-          strokeStyle:'dashed'
+          strokeColor: 'green', //线条颜色
+          strokeWeight: 4,  //线条粗细
+          strokeOpacity:0.5, //透明度
+          strokeStyle:'dashed' //虚线
         }
       )
       console.log('polyline ===> '+polyline);
-      map.addOverlay(polyline)
+      map.addOverlay(polyline) //将线条添加到地图上
       console.log('map ===> '+polyline.getMap());
       console.log("getOverlays ===> "+map.getOverlays());
       // window.open('../map.html'?)
